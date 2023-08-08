@@ -46,7 +46,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-PROJECT_APPS=['apps.user']
+PROJECT_APPS= ['apps.user']
 ECOMMERCE_APPS = []
 
 THIRD_PARTY_APPS=[
