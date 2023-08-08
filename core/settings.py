@@ -46,20 +46,21 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS=['apps.user']
 ECOMMERCE_APPS = []
-THIRD_PARTY_APPS = [
+
+THIRD_PARTY_APPS=[
     'corsheaders',
     'rest_framework',
     'djoser',
     'social_django',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + ECOMMERCE_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS= DJANGO_APPS + PROJECT_APPS + ECOMMERCE_APPS + THIRD_PARTY_APPS
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -107,10 +108,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres://vudera"), #en vudera, ponemos el nombre de la base da datos
+    "default": env.db("DATABASE_URL", default="postgres:///ninerogues"),
 }
-DATABASES["default"]["ATOMIC_REQUEST"] = True
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
@@ -173,7 +175,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATICFILE_DIRS = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]
 
@@ -183,10 +185,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.paggination.LimitOffsetPagination',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 12
 }
 
@@ -196,7 +198,20 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+AUTH_USER_MODEL = "user.UserAccount"
+
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+if not DEBUG:
+    DEFAULT_FROM_EMAIL = 'Vudera - Academia de Software <juanarquipa6675@gmail.com>'
+    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
