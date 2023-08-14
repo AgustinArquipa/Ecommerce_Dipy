@@ -26,7 +26,7 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
-class UserAccount(AbstractBaseUser, PermissionsMixin):
+class UserAccount(AbstractBaseUser, PermissionsMixin):  #Como vas a escribir first_name
 
     email = models.EmailField(max_length=25, unique=True)
     first_name = models.CharField(max_length=255)
@@ -41,11 +41,11 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     #funcion para obtener el nombre completo
     def get_full_name(self):
-        return self.firts_name + ' ' + self.last_name
+        return self.first_name + ' ' + self.last_name
     
     #funcion para obtener el nombre simple de la persona
     def get_short_name(self):
-        return self.firts_name
+        return self.first_name
 
     def __str__(self) -> str:
         return self.email
